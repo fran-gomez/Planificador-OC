@@ -11,6 +11,6 @@ char mostrar_menu();
 
 void mostrar_asecendente(FILE *fp);
 void mostrar_descendente(FILE *fp);
-float reducir_horas_manejor(FILE *fp);
+float reducir_horas_manejo(FILE *fp);
 void salir();
 

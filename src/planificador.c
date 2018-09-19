@@ -1,11 +1,18 @@
-#include <../lib/planificador.h>
+#include "../lib/planificador.h"
+
 #include <stdio.h>
+#include <stdlib.h>
 
 static TCiudad leer_ciudad(FILE *fp);
 
 
 void mostrar_ascendente(FILE *fp) {
 
+	TCiudad c = (TCiudad) malloc(sizeof(TCiudad));
+
+	while (c != NULL) {
+		c = leer_ciudad(fp);
+	}
 }
 
 void mostrar_descendente(FILE *fp) {
@@ -28,8 +35,8 @@ static TCiudad leer_ciudad(FILE *fp) {
 
 	if (leida != NULL) {
 		leida->nombre = (char *) malloc(sizeof(char) * 15);
-		if (!eof(fp) && leida->nombre != NULL)
-			fscanf(fp, "%s;%d;%d", leida->nombre, &(leida->pos_x), &(leida->pos_y));
+		if (!feof(fp) && leida->nombre != NULL)
+			fscanf(fp, "%s;%f;%f", leida->nombre, &(leida->pos_x), &(leida->pos_y));
 		else
 			free(leida);
 	}

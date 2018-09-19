@@ -4,9 +4,11 @@
  *  Created on: Sep 12, 2018
  *      Author: user
  */
-#include<stdio.h>
-#include<../lib/planificador.h>
+#include <stdio.h>
 
+#include "../lib/planificador.h"
+
+char mostrar_menu();
 
 int main(int argc, char **argv) {
 
@@ -33,7 +35,7 @@ int main(int argc, char **argv) {
 		mostrar_descendente(fp);
 		break;
 	case 'R': case 'r': // Reducir horas de manejo
-		reducir_horas(fp);
+		reducir_horas_manejo(fp);
 		break;
 	case 'S': case 's':
 
@@ -45,4 +47,14 @@ int main(int argc, char **argv) {
 
 
 	return 0;
+}
+
+
+char mostrar_menu() {
+
+	char opcion;
+
+	fscanf(stdin, "%c", &opcion);
+
+	return opcion;
 }
