@@ -36,7 +36,7 @@ static void agregar_entre(TPosicion prev, TPosicion succ, TPosicion nueva) {
 
 int l_insertar(TLista *lista, TPosicion pos, TElemento elem) {
 
-	TPosicion nueva = (struct celda) malloc(sizeof(struct celda));
+	TPosicion nueva = (TPosicion) malloc(sizeof(struct celda));
 	if (nueva == NULL)
 		return FALSE;
 
