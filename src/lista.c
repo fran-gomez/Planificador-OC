@@ -5,16 +5,7 @@
 #include <stdlib.h>
 
 TLista crear_lista() {
-
-	TLista nueva = malloc(sizeof(TLista));
-
-	if (nueva != NULL) {
-		nueva->celda_anterior = NULL;
-		nueva->celda_siguiente = NULL;
-		nueva->elemento = NULL;
-	}
-
-	return nueva;
+	return POS_NULA;
 }
 
 int l_destruir(TLista *lista) {
@@ -35,17 +26,34 @@ int l_destruir(TLista *lista) {
 	return TRUE;
 }
 
+static void agregar_entre(TPosicion prev, TPosicion succ, TPosicion nueva) {
+	prev->celda_siguiente = nueva;
+	succ->celda_anterior = nueva;
+
+	nueva->celda_anterior = prev;
+	nueva->celda_siguiente = succ;
+}
+
 int l_insertar(TLista *lista, TPosicion pos, TElemento elem) {
 
-	// Agregamos el elemento en la primer posicion de la lista
-	if (pos == POS_NULA) {
-		TPosicion nueva = malloc(sizeof(TPosicion));
-		if (nueva == NULL)
-			return FALSE;
+	TPosicion nueva = (struct celda) malloc(sizeof(struct celda));
+	if (nueva == NULL)
+		return FALSE;
 
-		nueva->elemento = elem;
-		nueva->celda_anterior = NULL;
-		nueva->celda_siguiente = *lista;
+	nueva->celda_anterior = POS_NULA;
+	nueva->celda_siguiente = POS_NULA;
+	nueva->elemento = elem;
+
+	if (*lista == POS_NULA)
+		*lista = nueva;
+	else {
+		if (pos == POS_NULA) {
+			nueva->celda_siguiente = *lista;
+			(*lista)->celda_anterior = nueva;
+			*lista = nueva;
+		} else {
+			agregar_entre(pos->celda_anterior, pos, nueva);
+		}
 	}
 
 	return TRUE;
@@ -63,7 +71,6 @@ int l_eliminar(TLista *lista, TPosicion pos) {
 	siguiente->celda_anterior = anterior;
 
 	// Liberamos la memoria asignada al elemento a eliminar
-	free(pos->elemento);
 	free(pos);
 
 	return TRUE;
@@ -73,8 +80,8 @@ TPosicion l_primera(TLista lista) {
 
 	TPosicion primera = lista;
 
-	if (primera->celda_anterior != NULL)
-		while (primera->celda_anterior != NULL)
+	if (primera->celda_anterior != POS_NULA)
+		while (primera->celda_anterior != POS_NULA)
 			primera = primera->celda_anterior;
 
 	return primera;
@@ -84,8 +91,8 @@ TPosicion l_ultima(TLista lista) {
 
 	TPosicion ultima = lista;
 
-	if (ultima->celda_siguiente != NULL)
-		while (ultima->celda_siguiente != NULL)
+	if (ultima->celda_siguiente != POS_NULA)
+		while (ultima->celda_siguiente != POS_NULA)
 			ultima = ultima->celda_siguiente;
 
 	return ultima;
@@ -95,7 +102,7 @@ TPosicion l_anterior(TLista lista, TPosicion pos) {
 
 	TPosicion anterior;
 
-	if (pos->celda_anterior == NULL)
+	if (pos->celda_anterior == POS_NULA)
 		anterior = POS_NULA;
 	else
 		anterior = pos->celda_anterior;
@@ -107,7 +114,7 @@ TPosicion l_siguiente(TLista lista, TPosicion pos) {
 
 	TPosicion siguiente;
 
-	if (pos->celda_siguiente == NULL)
+	if (pos->celda_siguiente == POS_NULA)
 		siguiente = POS_NULA;
 	else
 		siguiente = pos->celda_siguiente;
@@ -132,7 +139,7 @@ int l_size(TLista lista) {
 	int cant_elem = 0;
 	TPosicion p = lista;
 
-	while (p != NULL) {
+	while (p->celda_siguiente != POS_NULA) {
 		cant_elem++;
 		p = p->celda_siguiente;
 	}

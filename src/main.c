@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
 	op = mostrar_menu();
 
-	fp = fopen(argv[1], 'r');
+	fp = fopen(*argv[1], 'r');
 	if (!fp)
 		return 32;
 

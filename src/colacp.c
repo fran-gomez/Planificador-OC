@@ -29,3 +29,4 @@ TColaCP crear_cola_cp(int (*f)(TEntrada, TEntrada)) {
 
 	return nueva;
 }
+
