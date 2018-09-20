@@ -15,9 +15,6 @@ int l_destruir(TLista *lista) {
 	while (p != NULL) {
 		aux = p;
 		p = p->celda_siguiente;
-
-		free(aux->celda_anterior);
-		free(aux->elemento);
 		free(aux);
 	}
 
@@ -51,15 +48,17 @@ int l_insertar(TLista *lista, TPosicion pos, TElemento elem) {
 			nueva->celda_siguiente = *lista;
 			(*lista)->celda_anterior = nueva;
 			*lista = nueva;
-		} else {
+		} else
 			agregar_entre(pos->celda_anterior, pos, nueva);
-		}
 	}
 
 	return TRUE;
 }
 
 int l_eliminar(TLista *lista, TPosicion pos) {
+
+	if (*lista == POS_NULA)
+		return FALSE;
 
 	TPosicion anterior, siguiente;
 
@@ -80,9 +79,8 @@ TPosicion l_primera(TLista lista) {
 
 	TPosicion primera = lista;
 
-	if (primera->celda_anterior != POS_NULA)
-		while (primera->celda_anterior != POS_NULA)
-			primera = primera->celda_anterior;
+	while (primera->celda_anterior != POS_NULA)
+		primera = primera->celda_anterior;
 
 	return primera;
 }
@@ -91,9 +89,8 @@ TPosicion l_ultima(TLista lista) {
 
 	TPosicion ultima = lista;
 
-	if (ultima->celda_siguiente != POS_NULA)
-		while (ultima->celda_siguiente != POS_NULA)
-			ultima = ultima->celda_siguiente;
+	while (ultima->celda_siguiente != POS_NULA)
+		ultima = ultima->celda_siguiente;
 
 	return ultima;
 }
@@ -137,7 +134,7 @@ TElemento l_recuperar(TLista lista, TPosicion pos) {
 int l_size(TLista lista) {
 
 	int cant_elem = 0;
-	TPosicion p = lista;
+	TPosicion p = l_primera(lista);
 
 	while (p->celda_siguiente != POS_NULA) {
 		cant_elem++;

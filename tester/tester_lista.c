@@ -27,24 +27,29 @@ int main(void) {
 	struct test *t;
 
 	nueva = crear_lista();
-	if (nueva == NULL)
-		return -2;
 
-	for (i = 0; i < 20; i++) {
-		t = (struct test *) malloc(sizeof(struct test));
-		inicializar(t);
-		l_insertar(&nueva, POS_NULA, t);
-		printf("Insertado el elemento ");
-		print(t);
+	for (i = 0; i < 2; i++) {
+		for (i = 0; i < 20; i++) {
+			t = (struct test *) malloc(sizeof(struct test));
+			inicializar(t);
+			l_insertar(&nueva, POS_NULA, t);
+			printf("Insertado el elemento ");
+			print(t);
+		}
+		printf ("Size: %i\n", l_size(nueva));
+
+		aux = l_primera(nueva);
+		print(l_recuperar(nueva, aux));
+		aux = l_siguiente(nueva, aux);
+		print(aux->elemento);
+		aux = l_ultima(nueva);
+		print(aux->elemento);
+		aux = l_anterior(nueva, aux);
+		print(aux->elemento);
+
+		printf("Lista destruida\n");
+		l_destruir(&nueva);
 	}
-	printf ("Size: %i\n", l_size(nueva));
-
-	aux = l_primera(nueva);
-	print(l_recuperar(nueva, aux));
-	aux = l_ultima(nueva);
-	print(aux->elemento);
-	/*aux = l_siguiente(nueva, aux);
-	print(aux->elemento);*/
 /*
 	aux = l_primera(nueva);
 	for (i = 0; i < 20; i++) {
