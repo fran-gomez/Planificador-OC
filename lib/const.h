@@ -18,5 +18,6 @@
 #define POS_NULA   NULL
 #define ELE_NULO   NULL
 
-
+#define FILE_ERR   32
+#define BAD_ARGS   33
 #endif /* PLANIFICADOR_LIB_CONST_H_ */

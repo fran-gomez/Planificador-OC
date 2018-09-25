@@ -14,17 +14,15 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 	int i = 0;
 	struct punto p;
-
-	TCiudad c = (TCiudad) malloc(sizeof(TCiudad));
+	TCiudad c;
 
 	TEntrada entry = (TEntrada) malloc(sizeof(struct entrada));
 	TColaCP cola_ascendente;
 
 	cola_ascendente = crear_cola_cp(comp);
 	if (cola_ascendente != NULL) {
+		c = leer_ciudad(fp);
 		while (c != NULL) {
-			c = leer_ciudad(fp);
-
 			p.x = c->pos_x;
 			p.y = c->pos_y;
 
@@ -32,6 +30,7 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 			entry->valor = c->nombre;
 
 			cp_insertar(cola_ascendente, entry);
+			c = leer_ciudad(fp);
 		}
 
 		while (cp_size(cola_ascendente) > 0) {
@@ -43,19 +42,48 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 float reducir_horas_manejo(FILE *fp) {
 
-	float horas = 0.0;
+	float distancia = 0.0;
 	struct punto pos_actual;
-
+	TCiudad c;
+	TLista lista_destinos;
+	TColaCP cola;
 	// Obtengo la posicion actual del viajero
 	if (!feof(fp))
 		fscanf("%f;%f\n", &(pos_actual.x), &(pos_actual.y));
 
 	// Armamos la lista de destinos
+	lista_destinos = crear_lista();
+	c = leer_ciudad(fp);
+	while (c != NULL) {
 
+	}
 
-	return horas;
+	// Para cada destino de la lista de destinos, buscamos el que esta a menor distancia
+	// y li agregamos a un heap que usa las distancias como clave
+	// No olvidar: Sumar la distancia para retornarla al final
+	return distancia;
 }
 
+char mostrar_menu(void) {
+
+	char c;
+
+	fprintf(stdout, "Bienvenido %s!\n", getenv("USER"));
+	fprintf(stdout, "Ingrese la opcion que desea...\n"
+			"1. Mostrar las ciudades en orden ascendente\n"
+			"2. Mostrar las ciudades en orden descendente\n"
+			"3. Motrar la ruta de menor tiempo al volante\n"
+			"4. Salir del programa: ");
+
+	fscanf(stdin, "%c", &c);
+
+	return c;
+}
+
+void salir(void) {
+	fprintf(stdout, "Adios %s!\n", getenv("USER"));
+	exit(0);
+}
 
 // Funciones auxiliares
 static TCiudad leer_ciudad(FILE *fp) {

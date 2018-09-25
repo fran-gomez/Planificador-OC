@@ -17,54 +17,78 @@ typedef struct celda * TPosicion;
 
 
 /**
- * Crea una nueva lista vacia
+ * @brief Crea una nueva lista vacia
+ * @return Lista vacia
  */
 TLista crear_lista();
 
 /**
- * Elimina la lista elemento a elemento
- * Retorna verdadero si pudo eliminarla, falso en caso contrario
+ * @brief Elimina la lista elemento a elemento
+ * @param lista Lista a destruir
+ * @return Verdadero si pudo eliminarla, falso en caso contrario
  */
 int l_destruir(TLista *lista);
 
 /**
- * Inserta el elemento en la posicion pos (Si esta es nula, lo agrega al principio
+ * @brief Inserta el elemento en la posicion pos
+ * @param lista Lista a insertarle el elemento
+ * @param pos Posicion de referencia (Si es nula, insertamos al principio)
+ * @elem ELemento a insertar
+ * @return Verdadero si pudo  insertar, falso en caso contrario
  */
 int l_insertar(TLista *lista, TPosicion pos, TElemento elem);
 
 /**
- * Elimina la posicion de la lista
+ * @brief Elimina la posicion de la lista
+ * @param lista Lista a eliminrle la posicion
+ * @param pos Posicion a eliminar
+ * @return Verdadero si pudo  insertar, falso en caso contrario
  */
 int l_eliminar(TLista *lista, TPosicion pos);
 
 /**
- * Retorna la primer posicion de la lista
+ * @brief Retorna la primer posicion de la lista
+ * @param lista Lista a consultar su primer elemento
+ * @return Posicion del primer elemento
  */
 TPosicion l_primera(TLista lista);
 
 /**
- * Retorna la ultima posicion de la lista
+ * @brief Retorna la ultima posicion de la lista
+ * @param lista Lista a consultar su primer elemento
+ * @return Posicin del ultimo elemento
  */
 TPosicion l_ultima(TLista lista);
 
 /**
- * Retorna el antecesor de la posicion pos
+ * @brief Retorna el antecesor de la posicion pos
+ * @param lista Lista contenedora
+ * @param pos Posicion de referencia
+ * @return Posicion del predecesor
  */
 TPosicion l_anterior(TLista lista, TPosicion pos);
 
 /**
- * Retorna el sucesor de la posicion pos
+ * @brief Retorna el sucesor de la posicion pos
+ * @param lista Lista contenedora
+ * @param pos Posicion de referencia
+ * @return Posicion del sucesor
  */
 TPosicion l_siguiente(TLista lista, TPosicion pos);
 
 /**
- * Retorna el elemento almacenado en pos
+ * @brief Retorna el elemento almacenado en pos
+ * @param lista Lista contenedora
+ * @param pos Posicion de referencia
+ * @return Elemento almacenado en la posicion
  */
 TElemento l_recuperar(TLista lista, TPosicion pos);
 
 
 /**
- * Consulta la cantidad de elementos en la lista
+ * @brief Consulta la cantidad de elementos en la lista
+ * @param lista Lista de referencia
+ * @return Cantidad de elementos de la lista
  */
 int l_size(TLista lista);
 

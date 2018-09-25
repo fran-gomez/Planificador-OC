@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include "../lib/planificador.h"
+#include "../lib/const.h"
 
 int (*orden_ascendente)(TEntrada, TEntrada);
 int (*orden_descendente)(TEntrada, TEntrada);
@@ -19,14 +20,14 @@ int main(int argc, char **argv) {
 	if (argc != 2) {
 		fprintf(stderr, "Error.Invocacion invalida.\n"
 				"\t\tplanificador <archivo_texto>\n");
-		return 32;
+		return BAD_ARGS;
 	}
 
 	op = mostrar_menu();
 
 	fp = fopen(*argv[1], 'r');
 	if (!fp)
-		return 32;
+		return FILE_ERR;
 
 	switch (op) {
 	case 'A': case 'a': // Mostrar ascendente
@@ -46,6 +47,7 @@ int main(int argc, char **argv) {
 		return 33;
 	}
 
+	fclose(fp);
 
 	return 0;
 }
