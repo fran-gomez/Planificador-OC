@@ -8,7 +8,8 @@
 
 #include "../lib/planificador.h"
 
-char mostrar_menu();
+int (*orden_ascendente)(TEntrada, TEntrada);
+int (*orden_descendente)(TEntrada, TEntrada);
 
 int main(int argc, char **argv) {
 

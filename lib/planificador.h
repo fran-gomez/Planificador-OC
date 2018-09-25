@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "colacp.h"
 
 typedef struct ciudad {
 	char *nombre;
@@ -9,8 +10,7 @@ typedef struct ciudad {
 
 char mostrar_menu();
 
-void mostrar_asecendente(FILE *fp);
-void mostrar_descendente(FILE *fp);
+void mostrar(FILE *fp, int(*comp)(TEntrada, TEntrada));
 float reducir_horas_manejo(FILE *fp);
 void salir();
 

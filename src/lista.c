@@ -10,7 +10,7 @@ TLista crear_lista() {
 
 int l_destruir(TLista *lista) {
 
-	TPosicion p = *lista, aux;
+	TPosicion p = l_primera(*lista), aux;
 
 	while (p != NULL) {
 		aux = p;
@@ -18,7 +18,7 @@ int l_destruir(TLista *lista) {
 		free(aux);
 	}
 
-	free(lista);
+	free(*lista);
 
 	return TRUE;
 }
