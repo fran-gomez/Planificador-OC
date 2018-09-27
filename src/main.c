@@ -29,22 +29,25 @@ int main(int argc, char **argv) {
 	if (!fp)
 		return FILE_ERR;
 
+	orden_ascendente = ascendente;
+	orden_descendente = descendente;
+
 	switch (op) {
-	case 'A': case 'a': // Mostrar ascendente
-		mostrar_ascendente(fp);
+	case '1': // Mostrar ascendente
+		mostrar(fp, orden_ascendente);
 		break;
-	case 'D': case 'd': // Mostrar descendente
-		mostrar_descendente(fp);
+	case '2': // Mostrar descendente
+		mostrar(fp, orden_descendente);
 		break;
-	case 'R': case 'r': // Reducir horas de manejo
+	case '3': // Reducir horas de manejo
 		reducir_horas_manejo(fp);
 		break;
-	case 'S': case 's':
-
+	case '4':
+		salir();
 		break;
 	default:
 		fprintf(stderr, "Error. Operacion invalida.\n");
-		return 33;
+		return BAD_ARGS;
 	}
 
 	fclose(fp);
@@ -52,12 +55,17 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+int ascendente(TEntrada t1, TEntrada t2) {
+	int val = 0;
 
-char mostrar_menu() {
+	if (*t1->clave < *t2->clave)
+		val = -1;
+	else if (*t1->clave > *t2->clave)
+		val = 1;
 
-	char opcion;
+	return val;
+}
 
-	fscanf(stdin, "%c", &opcion);
-
-	return opcion;
+int descendente(TEntrada t1, TEntrada t2) {
+	return -ascendente(t1, t2);
 }

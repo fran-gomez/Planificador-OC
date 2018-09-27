@@ -2,6 +2,14 @@
 
 #include "colacp.h"
 
+/**
+ * @attr x Coordenada x
+ * @attr y Coordenada y
+ */
+struct punto {
+	float x;
+	float y;
+};
 
 /**
  * @attr nombre Nombre de la ciudad

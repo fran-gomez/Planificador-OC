@@ -1,19 +1,16 @@
 #include "../lib/planificador.h"
+#include "../lib/const.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-
-struct punto {
-	float x;
-	float y;
-};
+#include <math.h>
 
 static TCiudad leer_ciudad(FILE *fp);
 
 void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 	int i = 0;
-	struct punto p;
+	struct punto pos_actual, pos_ciudad_actual;
 	TCiudad c;
 
 	TEntrada entry = (TEntrada) malloc(sizeof(struct entrada));
@@ -21,12 +18,17 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 	cola_ascendente = crear_cola_cp(comp);
 	if (cola_ascendente != NULL) {
+
+		fscanf(fp, "%f;%f\n", &(pos_actual.x), &(pos_actual.y));
+
+		// Armamos la lista de ciudades (Orden ascendente o descendente)
 		c = leer_ciudad(fp);
 		while (c != NULL) {
-			p.x = c->pos_x;
-			p.y = c->pos_y;
+			pos_ciudad_actual.x = c->pos_x;
+			pos_ciudad_actual.y = c->pos_y;
 
-			entry->clave = &p;
+			entry->clave = (float *)malloc(sizeof(float));
+			*(entry->clave) = distancia(pos_actual, pos_ciudad_actual);
 			entry->valor = c->nombre;
 
 			cp_insertar(cola_ascendente, entry);
@@ -46,6 +48,7 @@ float reducir_horas_manejo(FILE *fp) {
 	struct punto pos_actual;
 	TCiudad c;
 	TLista lista_destinos;
+	TPosicion pos;
 	TColaCP cola;
 
 	// Obtengo la posicion actual del viajero
@@ -56,12 +59,17 @@ float reducir_horas_manejo(FILE *fp) {
 	// Armamos la lista de destinos
 	lista_destinos = crear_lista();
 	c = leer_ciudad(fp);
+	pos = POS_NULA;
 	while (c != NULL) {
+		l_insertrar(&lista_destinos, pos , c);
 
+		c = leer_ciudad(fp);
+		pos = l_ultima(lista_destinos);
 	}
 
 	// Para cada destino de la lista de destinos, buscamos el que esta a menor distancia
-	// y li agregamos a un heap que usa las distancias como clave
+	// y lo agregamos a un heap que usa las distancias como clave
+	// luego, actualizamos la posicion actual a la posicion de la ultima ciudad visitada y seguimos
 	// No olvidar: Sumar la distancia para retornarla al final
 	return distancia;
 }
@@ -102,4 +110,8 @@ static TCiudad leer_ciudad(FILE *fp) {
 		leida = NULL;
 
 	return leida;
+}
+
+float distancia(struct punto p1, struct punto p2) {
+	return sqrt(abs(p2.x - p1.x) + abs(p2.y - p1.y));
 }
