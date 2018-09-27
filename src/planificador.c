@@ -47,9 +47,11 @@ float reducir_horas_manejo(FILE *fp) {
 	TCiudad c;
 	TLista lista_destinos;
 	TColaCP cola;
+
 	// Obtengo la posicion actual del viajero
+	rewind(fp);
 	if (!feof(fp))
-		fscanf("%f;%f\n", &(pos_actual.x), &(pos_actual.y));
+		fscanf(fp, "%f;%f\n", &(pos_actual.x), &(pos_actual.y));
 
 	// Armamos la lista de destinos
 	lista_destinos = crear_lista();
@@ -93,7 +95,7 @@ static TCiudad leer_ciudad(FILE *fp) {
 	if (!feof(fp) && leida != NULL) {
 		leida->nombre = (char *) malloc(sizeof(char) * 15);
 		if (!feof(fp) && leida->nombre != NULL)
-			fscanf(fp, "%s;%f;%f", leida->nombre, &(leida->pos_x), &(leida->pos_y));
+			fscanf(fp, "%s;%f;%f\n", leida->nombre, &(leida->pos_x), &(leida->pos_y));
 		else
 			free(leida);
 	} else
