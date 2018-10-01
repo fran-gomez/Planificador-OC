@@ -10,13 +10,13 @@ TColaCP crear_cola_cp(int (*f)(TEntrada, TEntrada)) {
 		return -2;
 
 	nueva->cantidad_elementos = 0;
-	nueva->raiz = malloc(sizeof(TNodo));
+	nueva->raiz = malloc(sizeof(struct nodo));
 	if (nueva->raiz == NULL) {
 		free(nueva);
 		return -2;
 	} else {
 		nueva->raiz->padre = NULL;
-		nueva->raiz->entrada = malloc(sizeof(TEntrada));
+		nueva->raiz->entrada = malloc(sizeof(struct entrada));
 		if (nueva->raiz->entrada == NULL) {
 			free(nueva->raiz);
 			free(nueva);
@@ -29,4 +29,3 @@ TColaCP crear_cola_cp(int (*f)(TEntrada, TEntrada)) {
 
 	return nueva;
 }
-

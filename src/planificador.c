@@ -13,7 +13,7 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 	struct punto pos_actual, pos_ciudad_actual;
 	TCiudad c;
 
-	TEntrada entry = (TEntrada) malloc(sizeof(struct entrada));
+	TEntrada entry;
 	TColaCP cola_ascendente;
 
 	cola_ascendente = crear_cola_cp(comp);
@@ -27,12 +27,15 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 			pos_ciudad_actual.x = c->pos_x;
 			pos_ciudad_actual.y = c->pos_y;
 
-			entry->clave = (float *)malloc(sizeof(float));
-			*(entry->clave) = distancia(pos_actual, pos_ciudad_actual);
-			entry->valor = c->nombre;
+			entry = (TEntrada) malloc(sizeof(struct entrada));
+			if (entry != NULL) {
+				entry->clave = (float *)malloc(sizeof(float));
+				*(entry->clave) = distancia(pos_actual, pos_ciudad_actual);
+				entry->valor = c->nombre;
 
-			cp_insertar(cola_ascendente, entry);
-			c = leer_ciudad(fp);
+				cp_insertar(cola_ascendente, entry);
+				c = leer_ciudad(fp);
+			}
 		}
 
 		while (cp_size(cola_ascendente) > 0) {
@@ -44,8 +47,9 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 float reducir_horas_manejo(FILE *fp) {
 
+	int dist;
 	float distancia = 0.0;
-	struct punto pos_actual;
+	struct punto pos_actual, pos_mas_cerca = {1000, 1000};
 	TCiudad c;
 	TLista lista_destinos;
 	TPosicion pos;
@@ -71,6 +75,18 @@ float reducir_horas_manejo(FILE *fp) {
 	// y lo agregamos a un heap que usa las distancias como clave
 	// luego, actualizamos la posicion actual a la posicion de la ultima ciudad visitada y seguimos
 	// No olvidar: Sumar la distancia para retornarla al final
+	while (l_size(lista_destinos) > 0) {
+		// Busco la posicion mas cercana a la posicion actual
+		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(pos)) {
+
+			if (distancia(pos_actual, pos_mas_cerca) > distancia(pos_actual, ((struct punto) pos->elemento)))
+					pos_mas_cerca = (struct punto) pos->elemento;
+		}
+
+		fprintf(stdout, "%i. %s", dist, pos);
+		pos_actual = pos_mas_cerca;
+	}
+
 	return distancia;
 }
 
