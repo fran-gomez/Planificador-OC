@@ -12,6 +12,9 @@
 int (*orden_ascendente)(TEntrada, TEntrada);
 int (*orden_descendente)(TEntrada, TEntrada);
 
+int ascendente(TEntrada t1, TEntrada t2);
+int descendente(TEntrada t1, TEntrada t2);
+
 int main(int argc, char **argv) {
 
 	char op;
@@ -25,7 +28,7 @@ int main(int argc, char **argv) {
 
 	op = mostrar_menu();
 
-	fp = fopen(*argv[1], 'r');
+	fp = fopen(argv[1], "r");
 	if (!fp)
 		return FILE_ERR;
 
@@ -58,9 +61,14 @@ int main(int argc, char **argv) {
 int ascendente(TEntrada t1, TEntrada t2) {
 	int val = 0;
 
-	if (*t1->clave < *t2->clave)
+	float c1, c2;
+
+	c1 = (float) *(t1->clave);
+	c2 = (float) *(t2->clave);
+
+	if (c1 < c2)
 		val = -1;
-	else if (*t1->clave > *t2->clave)
+	else if (c1 > c2)
 		val = 1;
 
 	return val;

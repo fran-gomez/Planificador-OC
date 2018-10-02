@@ -6,6 +6,7 @@
 #include <math.h>
 
 static TCiudad leer_ciudad(FILE *fp);
+float distancia(struct punto p1, struct punto p2);
 
 void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
@@ -47,10 +48,11 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 float reducir_horas_manejo(FILE *fp) {
 
-	int dist;
-	float distancia = 0.0;
-	struct punto pos_actual, pos_mas_cerca = {1000, 1000};
-	TCiudad c;
+	int counter = 0;
+	float distancia_total = 0.0;
+
+	struct punto pos_actual;
+	TCiudad c, ultima_ciudad, ciudad_mas_cercana;
 	TLista lista_destinos;
 	TPosicion pos;
 	TColaCP cola;
@@ -78,16 +80,18 @@ float reducir_horas_manejo(FILE *fp) {
 	while (l_size(lista_destinos) > 0) {
 		// Busco la posicion mas cercana a la posicion actual
 		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(pos)) {
+			c = (TCiudad) pos->elemento;
 
-			if (distancia(pos_actual, pos_mas_cerca) > distancia(pos_actual, ((struct punto) pos->elemento)))
-					pos_mas_cerca = (struct punto) pos->elemento;
+			if (distancia(ultima_ciudad, c) < distancia(ultima_ciudad, ciudad_mas_cercana))
+				ciudad_mas_cercana = c;
 		}
 
-		fprintf(stdout, "%i. %s", dist, pos);
-		pos_actual = pos_mas_cerca;
+		fprintf(stdout, "%d. %s\n", ++counter, ((TCiudad) pos->elemento)->nombre);
+		ultima_ciudad = ciudad_mas_cercana;
+		l_eliminar(lista_destinos, pos);
 	}
 
-	return distancia;
+	return distancia_total;
 }
 
 char mostrar_menu(void) {
@@ -128,6 +132,6 @@ static TCiudad leer_ciudad(FILE *fp) {
 	return leida;
 }
 
-float distancia(struct punto p1, struct punto p2) {
-	return sqrt(abs(p2.x - p1.x) + abs(p2.y - p1.y));
+float distancia(TCiudad c1, TCiudad c2) {
+	return 0;
 }
