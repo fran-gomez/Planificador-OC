@@ -65,7 +65,6 @@ float reducir_horas_manejo(FILE *fp) {
 	TPosicion pos;
 
 	// Obtengo la posicion actual del viajero
-	assert("Posicin Actual");
 	rewind(fp);
 	if (!feof(fp)) {
 		ciudad_actual = (TCiudad) malloc(sizeof(struct ciudad));
@@ -74,24 +73,22 @@ float reducir_horas_manejo(FILE *fp) {
 	}
 
 	// Armamos la lista de destinos
-	assert("Lista de Destinos");
 	lista_destinos = crear_lista();
 	c = leer_ciudad(fp);
 	pos = POS_NULA;
 	while (c != NULL) {
-
+		printf("Insertando el %d - esimo elemento", counter++);
 		if (!l_insertar(&lista_destinos, pos , c))
 			fprintf(stderr, "Error insertando elemento.\n");
 
-		pos = l_ultima(lista_destinos);
 		c = leer_ciudad(fp);
+		pos = l_ultima(lista_destinos);
 	}
 
 	// Para cada destino de la lista de destinos, buscamos el que esta a menor distancia
 	// y lo agregamos a un heap que usa las distancias como clave
 	// luego, actualizamos la posicion actual a la posicion de la ultima ciudad visitada y seguimos
 	// No olvidar: Sumar la distancia para retornarla al final
-	assert("Ciudad mas cercana");
 	ciudad_mas_cercana = c;
 	while (l_size(lista_destinos) > 0) {
 		// Busco la posicion mas cercana a la posicion actual

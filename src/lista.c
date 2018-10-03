@@ -24,8 +24,10 @@ int l_destruir(TLista *lista) {
 }
 
 static void agregar_entre(TPosicion prev, TPosicion succ, TPosicion nueva) {
-	prev->celda_siguiente = nueva;
-	succ->celda_anterior = nueva;
+	if (prev != POS_NULA)
+		prev->celda_siguiente = nueva;
+	if (succ != POS_NULA)
+		succ->celda_anterior = nueva;
 
 	nueva->celda_anterior = prev;
 	nueva->celda_siguiente = succ;
