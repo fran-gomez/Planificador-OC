@@ -213,13 +213,6 @@ int cp_size(TColaCP cola){
     return cola->cantidad_elementos;
 };
 
-int cp_destruir(TColaCP cola){
-    destruir(cola->raiz);
-    free(cola);
-
-    return TRUE;
-};
-
 void destruir(TNodo nodo){
     if(nodo->hijo_izquierdo != NULL){
         destruir(nodo->hijo_izquierdo);
@@ -230,3 +223,10 @@ void destruir(TNodo nodo){
     free(nodo);
 };
 
+
+int cp_destruir(TColaCP cola){
+    destruir(cola->raiz);
+    free(cola);
+
+    return TRUE;
+};
