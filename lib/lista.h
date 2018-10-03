@@ -1,4 +1,5 @@
-
+#ifndef LISTA_H
+#define LISTA_H
 
 typedef void * TElemento;
 
@@ -92,3 +93,4 @@ TElemento l_recuperar(TLista lista, TPosicion pos);
  */
 int l_size(TLista lista);
 
+#endif

@@ -1,4 +1,7 @@
 
+
+#ifndef COLACP_H
+#define COLACP_H
 typedef void * TClave;
 typedef void * TValor;
 
@@ -55,3 +58,4 @@ TEntrada cp_eliminar(TColaCP cola);
  */
 int cp_size(TColaCP cola);
 
+#endif

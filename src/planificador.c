@@ -1,18 +1,19 @@
 #include "../lib/planificador.h"
 #include "../lib/const.h"
+#include "../lib/lista.h"
+#include "../lib/colacp.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 static TCiudad leer_ciudad(FILE *fp);
-float distancia(struct punto p1, struct punto p2);
+float *distancia(TCiudad c1, TCiudad c2);
 
 void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 	int i = 0;
-	struct punto pos_actual, pos_ciudad_actual;
-	TCiudad c;
+	TCiudad c, mi_posicion;
 
 	TEntrada entry;
 	TColaCP cola_ascendente;
@@ -20,18 +21,15 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 	cola_ascendente = crear_cola_cp(comp);
 	if (cola_ascendente != NULL) {
 
-		fscanf(fp, "%f;%f\n", &(pos_actual.x), &(pos_actual.y));
+		fscanf(fp, "%f;%f\n", &(mi_posicion->pos_x), &(mi_posicion->pos_y));
 
 		// Armamos la lista de ciudades (Orden ascendente o descendente)
 		c = leer_ciudad(fp);
 		while (c != NULL) {
-			pos_ciudad_actual.x = c->pos_x;
-			pos_ciudad_actual.y = c->pos_y;
-
 			entry = (TEntrada) malloc(sizeof(struct entrada));
 			if (entry != NULL) {
 				entry->clave = (float *)malloc(sizeof(float));
-				*(entry->clave) = distancia(pos_actual, pos_ciudad_actual);
+				entry->clave = distancia(mi_posicion, c);
 				entry->valor = c->nombre;
 
 				cp_insertar(cola_ascendente, entry);
@@ -41,7 +39,7 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 
 		while (cp_size(cola_ascendente) > 0) {
 			entry = cp_eliminar(cola_ascendente);
-			fprintf(stdout, "%d. %s\n", ++i, entry->valor);
+			fprintf(stdout, "%d. %s\n", ++i, ((char *)entry->valor));
 		}
 	}
 }
@@ -51,8 +49,7 @@ float reducir_horas_manejo(FILE *fp) {
 	int counter = 0;
 	float distancia_total = 0.0;
 
-	struct punto pos_actual;
-	TCiudad c, ultima_ciudad, ciudad_mas_cercana;
+	TCiudad c, ciudad_actual, ciudad_mas_cercana;
 	TLista lista_destinos;
 	TPosicion pos;
 	TColaCP cola;
@@ -60,18 +57,17 @@ float reducir_horas_manejo(FILE *fp) {
 	// Obtengo la posicion actual del viajero
 	rewind(fp);
 	if (!feof(fp))
-		fscanf(fp, "%f;%f\n", &(pos_actual.x), &(pos_actual.y));
+		fscanf(fp, "%f;%f\n", &(ciudad_actual->pos_x), &(ciudad_actual->pos_y));
 
 	// Armamos la lista de destinos
 	lista_destinos = crear_lista();
-	c = leer_ciudad(fp);
 	pos = POS_NULA;
-	while (c != NULL) {
-		l_insertrar(&lista_destinos, pos , c);
-
+	do {
 		c = leer_ciudad(fp);
+		l_insertar(&lista_destinos, pos , c);
+
 		pos = l_ultima(lista_destinos);
-	}
+	} while (c != NULL);
 
 	// Para cada destino de la lista de destinos, buscamos el que esta a menor distancia
 	// y lo agregamos a un heap que usa las distancias como clave
@@ -79,16 +75,16 @@ float reducir_horas_manejo(FILE *fp) {
 	// No olvidar: Sumar la distancia para retornarla al final
 	while (l_size(lista_destinos) > 0) {
 		// Busco la posicion mas cercana a la posicion actual
-		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(pos)) {
+		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(lista_destinos, pos)) {
 			c = (TCiudad) pos->elemento;
 
-			if (distancia(ultima_ciudad, c) < distancia(ultima_ciudad, ciudad_mas_cercana))
+			if (distancia(ciudad_actual, c) < distancia(ciudad_actual, ciudad_mas_cercana))
 				ciudad_mas_cercana = c;
 		}
 
 		fprintf(stdout, "%d. %s\n", ++counter, ((TCiudad) pos->elemento)->nombre);
-		ultima_ciudad = ciudad_mas_cercana;
-		l_eliminar(lista_destinos, pos);
+		ciudad_actual = ciudad_mas_cercana;
+		l_eliminar(&lista_destinos, pos);
 	}
 
 	return distancia_total;
@@ -132,6 +128,6 @@ static TCiudad leer_ciudad(FILE *fp) {
 	return leida;
 }
 
-float distancia(TCiudad c1, TCiudad c2) {
+float *distancia(TCiudad c1, TCiudad c2) {
 	return 0;
 }

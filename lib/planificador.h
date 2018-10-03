@@ -1,3 +1,6 @@
+#ifndef PLAN_H
+#define PLAN_H
+
 #include <stdio.h>
 
 #include "colacp.h"
@@ -47,3 +50,5 @@ float reducir_horas_manejo(FILE *fp);
  * @brief Sale del programa
  */
 void salir(void);
+
+#endif

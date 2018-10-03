@@ -19,7 +19,7 @@ struct test {
 static void inicializar(struct test *t);
 static void print(struct test *t);
 
-int main(void) {
+int main_tester(void) {
 
 	int i;
 	TLista nueva;

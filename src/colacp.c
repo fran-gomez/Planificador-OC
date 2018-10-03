@@ -1,5 +1,7 @@
 
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "../lib/colacp.h"
 #include "../lib/const.h"
 
@@ -8,9 +10,13 @@ static int (*comparar)(TEntrada e1, TEntrada e2);
 TColaCP crear_cola_cp(int (*f)(TEntrada, TEntrada)){
     comparar = f;
     TColaCP cola = malloc(sizeof(struct cola_con_prioridad));
-    cola->cantidad_elementos = 0;
-    cola->raiz = NULL;
 
+    if (cola != NULL) {
+		cola->cantidad_elementos = 0;
+		cola->raiz = NULL;
+    }
+
+    return cola;
 };
 
 /**
@@ -210,6 +216,8 @@ int cp_size(TColaCP cola){
 int cp_destruir(TColaCP cola){
     destruir(cola->raiz);
     free(cola);
+
+    return TRUE;
 };
 
 void destruir(TNodo nodo){
