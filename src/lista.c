@@ -39,8 +39,6 @@ int l_insertar(TLista *lista, TPosicion pos, TElemento elem) {
 	if (nueva == NULL)
 		return FALSE;
 
-	nueva->celda_anterior = POS_NULA;
-	nueva->celda_siguiente = POS_NULA;
 	nueva->elemento = elem;
 
 	if (*lista == POS_NULA)
@@ -139,7 +137,7 @@ int l_size(TLista lista) {
 	TPosicion p = l_primera(lista);
 
 	while (p->celda_siguiente != POS_NULA) {
-		cant_elem++;
+		++cant_elem;
 		p = p->celda_siguiente;
 	}
 

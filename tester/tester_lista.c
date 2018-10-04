@@ -30,13 +30,14 @@ int main(void) {
 		nueva = crear_lista();
 		aux = POS_NULA;
 
-		for (j = 0; j < 20; j++) {
+		for (j = 0; j < 1; j++) {
 			t = (struct test *) malloc(sizeof(struct test));
 			inicializar(t);
-			l_insertar(&nueva, aux, t);
+
+			l_insertar(&nueva, POS_NULA, t);
 			printf("Insertado el elemento ");
 			print(t);
-			aux = l_ultima(nueva);
+			//aux = l_ultima(nueva);
 		}
 		printf ("Size: %i\n", l_size(nueva));
 
@@ -72,10 +73,6 @@ static char rand_char() {
 }
 
 static void inicializar(struct test *t) {
-
-	time_t t2;
-	time(&t2);
-	srand(t2);
 
 	if (t != NULL) {
 		t->c = rand_char();
