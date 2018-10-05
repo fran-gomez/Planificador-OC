@@ -33,7 +33,7 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 			while (c != NULL) {
 				entry = (TEntrada) malloc(sizeof(struct entrada));
 				if (entry != NULL) {
-					entry->clave = (float *)malloc(sizeof(float));
+					//entry->clave = (float *)malloc(sizeof(float));
 					if (entry->clave != NULL) {
 						entry->clave = distancia(mi_posicion, c);
 						entry->valor = c->nombre;
@@ -54,10 +54,11 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 	}
 }
 
-float reducir_horas_manejo(FILE *fp) {
+float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada)) {
 
 	int counter = 0, lista_destinos_sz;
 	float distancia_total = 0.0;
+	TEntrada entry;
 
 	TCiudad c, ciudad_actual, ciudad_mas_cercana;
 	TLista lista_destinos;
@@ -89,9 +90,16 @@ float reducir_horas_manejo(FILE *fp) {
 	lista_destinos_sz = l_size(lista_destinos);
 	colas = (TColaCP *) malloc(sizeof(struct cola_con_prioridad) * lista_destinos_sz);
 	while (lista_destinos_sz > 0) {
-		colas[counter] = crear_cola_cp(NULL);
+		colas[counter] = crear_cola_cp(comp_ascendente);
 
-		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(lista_destinos, pos));
+		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(lista_destinos, pos)) {
+			entry = (TEntrada) malloc(sizeof(struct entrada));
+			if (entry != NULL) {
+				entry->clave = distancia(ciudad_actual, pos->elemento);
+				entry->valor = pos->elemento;
+				cp_insertar(colas[counter], entry);
+			}
+		}
 	}
 
 	return distancia_total;

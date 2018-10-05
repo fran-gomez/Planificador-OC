@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 		mostrar(fp, orden_descendente);
 		break;
 	case '3': // Reducir horas de manejo
-		reducir_horas_manejo(fp);
+		reducir_horas_manejo(fp, orden_ascendente);
 		break;
 	case '4':
 		salir();
