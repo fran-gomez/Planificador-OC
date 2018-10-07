@@ -1,0 +1,15 @@
+
+1. Planificador Orga es un proyecto iniciado desde cero por Nicolas Arias y Francisco Gomez Volonterio, con el fin de implementar
+un sistema capaz de mostrar distintas rutas de viaje a un usuario, cuya posicion actual es conocida.
+El sistema esta preparado para mostrar las ciudades mas cercanas al usuario en orden ascendente (De la mas cercana a la mas lejana)
+y en orden descendente (De la mas lejana a la mas cercana), tambien posee una funcionalidad extra para calcular la ruta de menor
+costo (En distancia) que le permita al usuario recorrer todos los destinos deseados.
+El usuario requiere conocimiento minimo de consola de comandos, para poder correr el sistema.
+
+
+2. El sistema esta limitado a utilizar solo colas con prioridad y listas como estructuras de datos auxiliares, asi como tambien
+requiere que el archivo siga un formato especial:
+    <x;y> Posicion actual -> unica
+    <ciudad;x;y> Ciudad en posicion (x,y) -> cantidad a gusto del usuario, separados en lineas distintas
+
+

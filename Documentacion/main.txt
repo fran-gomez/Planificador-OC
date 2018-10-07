@@ -1,0 +1,13 @@
+Modulo principal del sistema, se encarga de proveer al usuario las funciones principales del sistema
+(Ver REDME, seccion Especificacion de Requerimientos)
+
+
+int main(int argc, char **argv);
+Funcion principal del sistema. Se encarga de controlar el flujo de ejecucion del programa
+
+1. Chequea que el programa sea correctamente invocado
+2. Pide al usuario una opcion (Que quiere hacer?)
+3. Abre el archivo del usuario y ejecuta la opcion pedida por el usuario
+
+char mostrar_menu(void);
+Muestra el menu especificado en el punto (2) del main y devuelve la opcion ingresada por el usuario

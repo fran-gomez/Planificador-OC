@@ -1,0 +1,57 @@
+El modulo planificador contiene las funciones y procedimientos necesarios para:
+
+    1) Mostrar las ciudades en orden ascendente*
+    2) Mostrar las ciudades en orden descendente*
+    3) Mostrar la ruta de manejo mas corta**
+
+*El orden es en funcion de la distancia de cada ciudad a la posicion actual
+**Partiendo de la posicion actual, y recorriendo todas las ciudades
+
+
+Veamos una explicacion mas detallada de las funciones/procedimientos...
+
+void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada));
+El procedimiento mostrar es el encargado de satisfcer los puntos (1) y (2), delegando la diferencia del orden 
+en la funcion de compracion pasada por parametro al momento de su invocacion.
+
+1. El procedimiento lee la posicion actual del viajero, almacenandola en una ciudad dummy (Ciudad sin nombre)
+2. Luego, crea una cola con prioridad cuyo ordenamiento esta definido por la funcion comp.
+3. Una vez creada la cola, para cada ciudad restante en el archivo (fp), lee la ciudad y la inserta en la cola con prioridad,
+la cual utiliza la distancia entre la ciudad actual y la leida como clave de ordenamiento (Las entradas de la cola tiene la forma
+(distancia, ciudad)).
+4. Finalmente, se quitan todos los elementos de la cola, y se los va imprimiendo, de manera tal que salen ordenados de forma
+ascendete o descendente.
+
+
+float reducir_horas_manejo(FILE *fp, int (*comp)(TEntrada, TEntrada));
+La funcion nos permite hallar la ruta de menor costo (En horas de manejo) partiendo por la posicion actual, y pasando por
+todos los destinos.
+
+1. Inicialmente, la funcion lee la posicion del usuario, y la almacena en una ciudad dummy (Ciudad sin nombre).
+2. Luego, creamos una lista vacia, la cual almacenara todas las ciudades del archivo pasado por parametro (El procedimiento
+es muy simple, mientras el archivo no este vacio, leemos una ciudad y la insertamos al inicio de la lista, ya que el orden 
+no es relevante para el resto de la funcion).
+3.
+
+
+void salir(void);
+El procedimiento se encarga de salir del programa con codigo 0 (Sin errores), imprimiendo un mensaje para el usuario
+
+TCiudad leer_ciudad(FILE *fp);
+La funcion abstrae el proceso de lectura de una ciudad, junto con todo el manejo de memoria correspondiente.
+
+1. Reservamos memoria para la nueva ciudad a leer
+2. En caso de no haber ningun error con el archivo o la memoria reservada, procedemos a leer la ciudad, que en el archivo
+sigue el formato de (nombre;x;y)
+3. Devolvemos la ciudad leida
+
+float *distancia(TCiudad c1, TCiudad c2);
+Computa la distancia entre c1 y c2 con la formula de Manhattan |x2 - x1| + |y2 - y1|. Devuelve un puntero a float (y no un float)
+para facilitar el almacenamiento en el campo clave de las entradas de la cola con prioridad.
+
+
+NOTAS:
+    Respecto al manejo de memoria, cada vez que realizamos un malloc(...), chqueamos que el puntero no sea nulo, ya que en este caso,
+nos encontrariamos ante un error de asignacion de memoria, y la ejecucion no podria continuar sin el recurso alocado.
+    El procedimiento mostrar recibe la funcion de comparacion como parametro, ya que era la unica variacion entre mostrar_ascendente
+y mostrar_descendente
