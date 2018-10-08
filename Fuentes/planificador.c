@@ -87,10 +87,8 @@ float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada))
 
 		// Creo la cola de ciudades, ordenadas por cercania a la ciudad actual
 		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(lista_destinos, pos)) {
-			printf("\tEntro al for\n");
 			entry = (TEntrada) malloc(sizeof(struct entrada));
 			if (entry != NULL) {
-				printf("%p - %p\n", ciudad_actual, pos->elemento);
 				entry->clave = distancia(ciudad_actual, pos->elemento);
 				entry->valor = pos;
 
@@ -111,7 +109,6 @@ float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada))
 		cp_destruir(cola);
 
 		lista_destinos_sz--;
-		printf("-----\n");
 	}
 
 	fprintf(stdout, "Distancia total: %f\n", distancia_total);

@@ -68,6 +68,8 @@ int l_eliminar(TLista *lista, TPosicion pos) {
 
 	if (anterior != POS_NULA)
 		anterior->celda_siguiente = siguiente;
+	else
+		*lista = pos->celda_siguiente;
 	if (siguiente != POS_NULA)
 		siguiente->celda_anterior = anterior;
 
