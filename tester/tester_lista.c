@@ -8,8 +8,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../lib/const.h"
-#include "../lib/lista.h"
+#include "../Fuentes/const.h"
+#include "../Fuentes/lista.h"
 
 struct test {
 	int i;
@@ -26,18 +26,18 @@ int main(void) {
 	TPosicion aux;
 	struct test *t;
 
-	for (i = 0; i < 2; i++) {
+	//for (i = 0; i < 2; i++) {
 		nueva = crear_lista();
 		aux = POS_NULA;
 
-		for (j = 0; j < 1; j++) {
+		for (j = 0; j < 10; j++) {
 			t = (struct test *) malloc(sizeof(struct test));
 			inicializar(t);
 
-			l_insertar(&nueva, POS_NULA, t);
+			l_insertar(&nueva, aux, t);
 			printf("Insertado el elemento ");
 			print(t);
-			//aux = l_ultima(nueva);
+			aux = l_ultima(nueva);
 		}
 		printf ("Size: %i\n", l_size(nueva));
 
@@ -52,7 +52,7 @@ int main(void) {
 
 		printf("Lista destruida\n");
 		l_destruir(&nueva);
-	}
+	//}
 /*
 	aux = l_primera(nueva);
 	for (i = 0; i < 20; i++) {

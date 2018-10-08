@@ -14,9 +14,9 @@ int ascendente(TEntrada t1, TEntrada t2) {
 	c1 = (float *) t1->clave;
 	c2 = (float *) t2->clave;
 
-	if (*c1 < *c2)
+	if (*c1 > *c2)
 		val = -1;
-	else if (*c1 > *c2)
+	else if (*c1 < *c2)
 		val = 1;
 
 	return val;

@@ -56,10 +56,10 @@ float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada))
 	float distancia_total = 0.0;
 	TEntrada entry;
 
-	TCiudad c, ciudad_actual, ciudad_mas_cercana;
+	TCiudad c, ciudad_actual;
 	TLista lista_destinos;
-	TPosicion pos;
-	TColaCP *colas;
+	TPosicion pos, pos_ciudad_mas_cercana;
+	TColaCP cola;
 
 	// Obtengo la posicion actual del viajero
 	rewind(fp);
@@ -80,23 +80,41 @@ float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada))
 		//pos = l_ultima(lista_destinos);
 	}
 
-	printf("Pase la creacion de la lista\n");
-
 	//
 	lista_destinos_sz = l_size(lista_destinos);
-	colas = (TColaCP *) malloc(sizeof(struct cola_con_prioridad) * lista_destinos_sz);
 	while (lista_destinos_sz > 0) {
-		colas[counter] = crear_cola_cp(comp_ascendente);
+		cola = crear_cola_cp(comp_ascendente);
 
+		// Creo la cola de ciudades, ordenadas por cercania a la ciudad actual
 		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(lista_destinos, pos)) {
+			printf("\tEntro al for\n");
 			entry = (TEntrada) malloc(sizeof(struct entrada));
 			if (entry != NULL) {
+				printf("%p - %p\n", ciudad_actual, pos->elemento);
 				entry->clave = distancia(ciudad_actual, pos->elemento);
 				entry->valor = pos;
-				cp_insertar(colas[counter], entry);
+
+				cp_insertar(cola, entry);
 			}
 		}
+
+		// Obtengo el elemento mas cercano a la ciudad actual
+		entry = cp_eliminar(cola);
+		pos_ciudad_mas_cercana = entry->valor;
+		distancia_total += *((float*)entry->clave);
+
+		fprintf(stdout, "%i. %s\n", ++counter, ((TCiudad) pos_ciudad_mas_cercana->elemento)->nombre);
+
+		ciudad_actual = pos_ciudad_mas_cercana->elemento;
+
+		l_eliminar(&lista_destinos, pos_ciudad_mas_cercana);
+		cp_destruir(cola);
+
+		lista_destinos_sz--;
+		printf("-----\n");
 	}
+
+	fprintf(stdout, "Distancia total: %f\n", distancia_total);
 
 	return distancia_total;
 }

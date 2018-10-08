@@ -57,7 +57,7 @@ int l_insertar(TLista *lista, TPosicion pos, TElemento elem) {
 
 int l_eliminar(TLista *lista, TPosicion pos) {
 
-	if (*lista == POS_NULA)
+	if (*lista == POS_NULA || pos == POS_NULA)
 		return FALSE;
 
 	TPosicion anterior, siguiente;
@@ -66,10 +66,12 @@ int l_eliminar(TLista *lista, TPosicion pos) {
 	anterior = pos->celda_anterior;
 	siguiente = pos->celda_siguiente;
 
-	anterior->celda_siguiente = siguiente;
-	siguiente->celda_anterior = anterior;
+	if (anterior != POS_NULA)
+		anterior->celda_siguiente = siguiente;
+	if (siguiente != POS_NULA)
+		siguiente->celda_anterior = anterior;
 
-	// Liberamos la memoria asignada al elemento a eliminar
+	// Liberamos la memoria asignada a la celda a eliminar
 	free(pos);
 
 	return TRUE;
@@ -136,7 +138,7 @@ int l_size(TLista lista) {
 	int cant_elem = 0;
 	TPosicion p = l_primera(lista);
 
-	while (p->celda_siguiente != POS_NULA) {
+	while (p != POS_NULA) {
 		++cant_elem;
 		p = p->celda_siguiente;
 	}

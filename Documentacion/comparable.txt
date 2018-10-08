@@ -1,0 +1,14 @@
+
+Modulo que contiene las funciones de comparacion para la cola con prioridad.
+
+
+int ascendente(TEntrada t1, TEntrada t2);
+Realiza la comparacion de t1 y t2 para el ordenamiento ascendente. Puede retornar uno de los siguientes valores:
+    -1 si t1 < t2
+    0  si t1 = t2
+    1  si t1 > t2
+Internamente, la comparacion de entradas se lleva a cabo comparando sus claves.
+
+
+int descendente(TEntrada t1, TEntrada t2);
+Al ser el ordenamiento inverso al anterior, simplemente retorna el valor inverso a ascendente(t1, t2).

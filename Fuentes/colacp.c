@@ -197,11 +197,11 @@ TEntrada cp_eliminar(TColaCP cola) {
             nodo->padre->hijo_derecho = NULL;
         }
         ordenarHaciaAbajo(cola->raiz);
-    }else{
+    }else
         entradaEliminada = cola->raiz->entrada;
-        free(nodo);
-    }
 
+
+    free(nodo);
     return entradaEliminada;
 }
 
@@ -225,7 +225,8 @@ void destruir(TNodo nodo){
 
 
 int cp_destruir(TColaCP cola){
-    destruir(cola->raiz);
+	if (cola != NULL)
+		destruir(cola->raiz);
     free(cola);
 
     return TRUE;
