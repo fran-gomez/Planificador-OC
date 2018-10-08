@@ -44,7 +44,7 @@ int l_insertar(TLista *lista, TPosicion pos, TElemento elem) {
 	if (*lista == POS_NULA)
 		*lista = nueva;
 	else {
-		if (pos == POS_NULA) {
+		if (pos == POS_NULA || *lista == pos) {
 			nueva->celda_siguiente = *lista;
 			(*lista)->celda_anterior = nueva;
 			*lista = nueva;
