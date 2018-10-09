@@ -98,20 +98,13 @@ TNodo encontrarUltimoNodo(TColaCP cola, int n){
         pos = cola->raiz;
     }else{
         pos = encontrarUltimoNodo(cola, n/2);
-        if(n == cola->cantidad_elementos){
-            if(n % 2 == 0){
-                pos = pos->hijo_izquierdo;
-            }else{
-                pos = pos->hijo_derecho;
-            }
-        }else{
-            if(n % 2 == 0){
-                pos = pos->hijo_izquierdo;
-            }else{
-                pos = pos->hijo_derecho;
-            }
+        if(n % 2 == 0) {
+            pos = pos->hijo_izquierdo;
+        } else {
+            pos = pos->hijo_derecho;
         }
     }
+
     return pos;
 }
 
@@ -225,7 +218,7 @@ void destruir(TNodo nodo){
 
 
 int cp_destruir(TColaCP cola){
-	if (cola != NULL)
+	if (cola != NULL && cola->cantidad_elementos > 0)
 		destruir(cola->raiz);
     free(cola);
 

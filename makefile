@@ -7,12 +7,13 @@ test-colacp:
 	echo "Construyendo tester cola con prioridad"
 	gcc test/colacp-test.c src/colacp.c -o colacp_test
 
-all: src/*.c
-	echo "Construyendo programa..."
-	gcc -Wall src/*.c -o planificador >log.txt 2>&1
+run:
+	./planificador viajero.txt
 
-run: all
-	./planificador viajes.txt
+all: Fuentes/*.c run
+	echo "Construyendo programa..."
+	gcc -Wall Fuentes/*.c -o planificador >log.txt 2>&1
+    run
 
 clean:
 	rm -rf planificador log.txt

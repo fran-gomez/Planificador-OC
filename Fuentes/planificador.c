@@ -2,6 +2,7 @@
 #include "const.h"
 #include "lista.h"
 #include "colacp.h"
+#include "comparable.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,7 +51,7 @@ void mostrar(FILE *fp, int (*comp)(TEntrada, TEntrada)) {
 	}
 }
 
-float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada)) {
+float reducir_horas_manejo(FILE *fp) {
 
 	int counter = 0, lista_destinos_sz;
 	float distancia_total = 0.0;
@@ -83,7 +84,7 @@ float reducir_horas_manejo(FILE *fp, int (*comp_ascendente)(TEntrada, TEntrada))
 	//
 	lista_destinos_sz = l_size(lista_destinos);
 	while (lista_destinos_sz > 0) {
-		cola = crear_cola_cp(comp_ascendente);
+		cola = crear_cola_cp(&ascendente);
 
 		// Creo la cola de ciudades, ordenadas por cercania a la ciudad actual
 		for (pos = l_primera(lista_destinos); pos != POS_NULA; pos = l_siguiente(lista_destinos, pos)) {

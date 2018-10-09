@@ -38,7 +38,7 @@ void mostrar(FILE *fp, int(*comp)(TEntrada, TEntrada));
  * por todos los destinos
  * @param fp Archivo con los destinos a visitar
  */
-float reducir_horas_manejo(FILE *fp, int (*comp)(TEntrada, TEntrada));
+float reducir_horas_manejo(FILE *fp);
 
 /**
  * @brief Sale del programa

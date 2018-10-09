@@ -31,7 +31,8 @@ todos los destinos.
 2. Luego, creamos una lista vacia, la cual almacenara todas las ciudades del archivo pasado por parametro (El procedimiento
 es muy simple, mientras el archivo no este vacio, leemos una ciudad y la insertamos al inicio de la lista, ya que el orden 
 no es relevante para el resto de la funcion).
-3.
+3. Para cada ciudad en la lista de destinos, obtenemos la ciudad mas cercana (A traves de una cola con prioridad), la imprimimos y recalculamos las distancias, tomando a la mas cercana como nueva ciudad actual.
+4. Imprimimos la distancia total del recorrido
 
 
 void salir(void);
